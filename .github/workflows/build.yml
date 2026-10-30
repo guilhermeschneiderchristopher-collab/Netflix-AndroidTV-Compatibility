@@ -1,4 +1,3 @@
-
 name: Build Android APK
 
 on:
@@ -17,22 +16,19 @@ jobs:
       - name: Configurar Java
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
+          distribution: 'temurin'
           java-version: '17'
 
       - name: Configurar Android SDK
         uses: android-actions/setup-android@v3
-
-      - name: Aceitar licenças Android
-        run: yes | sdkmanager --licenses
-
-      - name: Configurar Gradle
-        uses: gradle/actions/setup-gradle@v6
         with:
-          gradle-version: '8.9'
+          accept-android-sdk-licenses: true
+
+      - name: Dar permissão de execução ao Gradle
+        run: chmod +x gradlew
 
       - name: Compilar APK
-        run: gradle assembleDebug
+        run: ./gradlew assembleDebug
 
       - name: Salvar APK
         uses: actions/upload-artifact@v4
